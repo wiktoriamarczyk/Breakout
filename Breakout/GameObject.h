@@ -10,7 +10,10 @@ public:
     virtual void Render(SDL_Renderer* pRenderer) = 0;
     vec2 GetObjectPos();
     void SetObjectPos(vec2 ObjectPos);
+    void SetObjectStatus(bool IsObjectDead);
+    bool  GetObjectStatus();
 protected:
     vec2 m_ObjectCenterPos;
     vec2 m_ObjectSize;
+    bool m_RemoveObject = false;
 };

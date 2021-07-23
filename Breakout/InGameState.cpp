@@ -48,7 +48,11 @@ void InGameState::Update(float DeltaTime)
     // update wszystkich obiektow w tym stanie
     for (int i = 0; i < m_AllGameObjects.size(); ++i)
     {
-        m_AllGameObjects[i]->Update(DeltaTime);
+
+        if (m_AllGameObjects[i]->GetObjectStatus() == false)
+        {
+            m_AllGameObjects[i]->Update(DeltaTime);
+        }
     }
 }
 
@@ -60,7 +64,10 @@ void InGameState::Render(SDL_Renderer* pRenderer)
     // render wszystkich obiektow w tym stanie
     for (int i = 0; i < m_AllGameObjects.size(); ++i)
     {
-        m_AllGameObjects[i]->Render(pRenderer);
+        if (m_AllGameObjects[i]->GetObjectStatus() == false)
+        {
+            m_AllGameObjects[i]->Render(pRenderer);
+        }  
     }
     SDL_RenderPresent(pRenderer);
 }
