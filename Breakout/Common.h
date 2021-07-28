@@ -21,7 +21,7 @@ enum : int
     SCREEN_WIDTH = 800,
     SCREEN_HEIGHT = 600,
 
-    BALL_SIZE = 10,
+    BALL_SIZE = 20,
     BALL_SPEED = 300,
 
     PADDLE_WIDTH = 100,

@@ -37,54 +37,80 @@ void Brick::Update(float DeltaTime)
     // punkt przeciecia prostej TopLine z prosta wyznaczana przez tor lotu pilki 
     vec2 PointOfIntersection_Up;
     vec2 PointOfIntersection_Bottom;
+    vec2 PointOfIntersection_Right;
+    vec2 PointOfIntersection_Left;
 
-    //-----sprawdz czy pilka znajduje sie na plaszczyznie OX w miejscu wystepowania cegly (miedzy LeftLine a RightLine)-----
+    //-----SPRAWDZ czy pilka znajduje sie na plaszczyznie OX w miejscu wystepowania cegly (miedzy LeftLine a RightLine)-----
     if (m_Ball->GetObjectPos().x >= BrickLeftLine && m_Ball->GetObjectPos().x <= BrickRightLine)
     {
-        // oblicz wspolrzedne punktu przeciecia z gorna czescia cegly
-        PointOfIntersection_Up.x = (BrickTopLine - m_Ball->GetBallDirectionLine().b) / m_Ball->GetBallDirectionLine().a;
-        PointOfIntersection_Up.y = BrickTopLine;
-
-        // jesli pilka znajduje sie nad gorna czescia cegly, to znaczy, ze moze sie z nia zderzyc od gory
-        if (m_Ball->GetObjectPos().y <= BrickTopLine)
+        //----- SPRAWDZ czy pilka odbije sie od gornej krawedzi, jesli pilka znajduje sie nad gorna czescia cegly, to znaczy, ze moze sie z nia zderzyc od gory------
+        if (m_Ball->GetObjectPos().y <= this->m_ObjectCenterPos.y)
         {
+            // y = ax + b
+            // x = (y - b) / a
+            // oblicz wspolrzedne punktu przeciecia z gorna czescia cegly
+            PointOfIntersection_Up.x = (BrickTopLine - m_Ball->GetBallDirectionLine().b) / m_Ball->GetBallDirectionLine().a;
+            PointOfIntersection_Up.y = BrickTopLine;
             // w OX cegly juz sie znajdujemy, zatem sprawdz czy wspolrzedna Y polozenia pilki jest rowna Y punktu przeciecia
             if (m_Ball->GetObjectPos().y >= PointOfIntersection_Up.y)
             {
+                std::cout << "od gory" << std::endl;
                 // jesli tak, to przemiesc pilke idealnie w pkt. przeciecia oraz odwroc jej kierunek (odbij od paletki)
                 m_Ball->SetObjectPos(PointOfIntersection_Up);
                 m_Ball->ReverseDirectionY();
                 SetObjectStatus(true);
             }
         }
-        
-        // oblicz wspolrzedne punktu przeciecia z dolna czescia cegly
-        PointOfIntersection_Bottom.x = (BrickTopLine - m_Ball->GetBallDirectionLine().b) / m_Ball->GetBallDirectionLine().a;
-        PointOfIntersection_Bottom.y = BrickBottomLine;
 
-        // pilka znajduje sie pod dolna czescia cegly, to znaczy, ze moze sie z nia zderzyc od dolu
-        if (m_Ball->GetObjectPos().y >= BrickTopLine)
+        //------SPRAWDZ czy pilka odbije sie od dolnej krawedzi, pilka znajduje sie pod dolna czescia cegly, to znaczy, ze moze sie z nia zderzyc od dolu------
+        if (m_Ball->GetObjectPos().y >= this->m_ObjectCenterPos.y)
         {
+            PointOfIntersection_Bottom.x = (BrickBottomLine - m_Ball->GetBallDirectionLine().b) / m_Ball->GetBallDirectionLine().a;
+            PointOfIntersection_Bottom.y = BrickBottomLine;
+
             if (m_Ball->GetObjectPos().y <= PointOfIntersection_Bottom.y)
             {
+                std::cout << "od dolu" << std::endl;
                 m_Ball->SetObjectPos(PointOfIntersection_Bottom);
                 m_Ball->ReverseDirectionY();
-                SetObjectStatus(true);
+                SetObjectStatus(true); 
             }
         }
     }
-    //-----sprawdz czy pilka znajduje sie na plaszczyznie OY w miejscu wystepowania cegly (miedzy BottomLine a TopLine)-----
-    if (m_Ball->GetObjectPos().y >= BrickTopLine && m_Ball->GetObjectPos().x <= BrickBottomLine)
+    //-----SPRAWDZ czy pilka znajduje sie na plaszczyznie OY w miejscu wystepowania cegly (miedzy BottomLine a TopLine)-----
+    if (m_Ball->GetObjectPos().y >= BrickTopLine && m_Ball->GetObjectPos().y <= BrickBottomLine)
     {
-        // sprawdz czy pilka odbije sie od prawej krawedzi
+        //-----SPRAWDZ czy pilka odbije sie od prawej krawedzi-----
         if (m_Ball->GetObjectPos().x >= BrickRightLine)
         {
+            // y = ax + b
+            // oblicz wspolrzedne punktu przeciecia z prawa czescia cegly
+            PointOfIntersection_Right.x = BrickRightLine;
+            PointOfIntersection_Right.y = m_Ball->GetBallDirectionLine().a * BrickRightLine + m_Ball->GetBallDirectionLine().b;
 
+            // w OY cegly juz sie znajdujemy, zatem sprawdz czy wspolrzedna X pilki jest rowna X punktu przeciecia
+            if (m_Ball->GetObjectPos().x <= PointOfIntersection_Right.x)
+            {
+                std::cout << "z prawej" << std::endl;
+                m_Ball->SetObjectPos(PointOfIntersection_Right);
+                m_Ball->ReverseDirectionX();
+                SetObjectStatus(true);
+            }
         }
-        // sprawdz czy pilka odbije sie od lewej krawedzi
+
+        //-----SPRAWDZ czy pilka odbije sie od lewej krawedzi------
         if (m_Ball->GetObjectPos().x <= BrickLeftLine)
         {
+            PointOfIntersection_Left.x = BrickLeftLine;
+            PointOfIntersection_Left.y = m_Ball->GetBallDirectionLine().a * BrickLeftLine + m_Ball->GetBallDirectionLine().b;;
 
+            if (m_Ball->GetObjectPos().x >= PointOfIntersection_Left.x)
+            {
+                std::cout << "z lewej" << std::endl;
+                m_Ball->SetObjectPos(PointOfIntersection_Left);
+                m_Ball->ReverseDirectionX();
+                SetObjectStatus(true);
+            }
         }
     }
 }

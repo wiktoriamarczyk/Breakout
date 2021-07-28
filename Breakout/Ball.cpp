@@ -83,7 +83,7 @@ void Ball::SetBallDirectionLine(vec2 OldPos, vec2 NewPos)
     //obliczenie wspolczynnika kierunkowego a = (y2-y1)/(x2-x1)
     m_BallDirLine.a = (OldPos.y - NewPos.y) / (OldPos.x - NewPos.x);
     // b = y - ax
-    m_BallDirLine.b = NewPos.y - m_BallDirLine.a * NewPos.x;
+    m_BallDirLine.b = OldPos.y - m_BallDirLine.a * OldPos.x;
 }
 
 Line Ball::GetBallDirectionLine()
@@ -94,4 +94,9 @@ Line Ball::GetBallDirectionLine()
 void Ball::ReverseDirectionY()
 {
     m_BallDirection.y = -m_BallDirection.y;
+}
+
+void Ball::ReverseDirectionX()
+{
+    m_BallDirection.x = -m_BallDirection.x;
 }

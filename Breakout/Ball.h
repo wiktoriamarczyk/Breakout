@@ -11,6 +11,7 @@ public:
     void SetBallDirectionLine(vec2 OldPos, vec2 NewPos);
     Line GetBallDirectionLine();
     void ReverseDirectionY();
+    void ReverseDirectionX();
 private:
     vec2 m_BallDirection;
     float m_BallSpeed = BALL_SPEED;
