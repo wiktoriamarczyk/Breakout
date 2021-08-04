@@ -23,14 +23,14 @@ void InGameState::CreateObject()
     MyPaddle->InitializePaddle(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 50, SDL_SCANCODE_A, SDL_SCANCODE_D);
     
     // inicjalizacja cegiel
-    int  PosX = 0, PosY = 0;
+    float  PosX = 0.0, PosY = 0.0;
 
     for (int column = 0; column < SCREEN_WIDTH / PADDLE_WIDTH; ++column)
     {
         for (int row = 0; row < SCREEN_WIDTH / PADDLE_WIDTH; ++row)
         {
-            PosX = row * PADDLE_WIDTH + PADDLE_WIDTH / 2 + 0 * row;
-            PosY = SCREEN_HEIGHT / 2 - PADDLE_HEIGHT * column - BRICK_SPACING * column;
+            PosX = row * PADDLE_WIDTH + PADDLE_WIDTH / 2 + 0 * float(row);
+            PosY = SCREEN_HEIGHT / 2 - PADDLE_HEIGHT * float(column) - BRICK_SPACING * float(column);
             m_AllGameObjects.push_back(make_shared<Brick>(PosX, PosY, MyBall));
         }
     }

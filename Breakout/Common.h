@@ -47,8 +47,8 @@ struct Color
 // y = ax + b
 struct Line
 {
-    float a;    // a - WSPOLCZYNNIK KIERUNKOWY PROSTEJ 
-    float b;    // b - WYRAZ WOLNY PROSTEJ
+    float a = 0;    // a - WSPOLCZYNNIK KIERUNKOWY PROSTEJ 
+    float b = 0;    // b - WYRAZ WOLNY PROSTEJ
 };
 
 bool SDL_IsKeyPressed(SDL_Scancode Code);

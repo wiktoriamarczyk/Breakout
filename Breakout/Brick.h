@@ -6,7 +6,7 @@
 class Brick : public GameObject
 {
 public:
-    Brick(int BrickCenterPosX, int BrickCenterPosY, shared_ptr<Ball> MyBall);
+    Brick(float BrickCenterPosX, float BrickCenterPosY, shared_ptr<Ball> MyBall);
     void Update(float DeltaTime)override;
     void Render(SDL_Renderer* m_pRenderer)override;
     bool HasBrickBeenCrossed(vec2 BallPos);

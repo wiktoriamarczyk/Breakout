@@ -40,10 +40,9 @@ void Ball::Update(float DeltaTime)
         m_BallDirection.x = -m_BallDirection.x;
     }
 
-
-
     //----------BRAK KOLIZJI Z PALETKA----------
     // jesli nie trafimy w paletke, tracimy zycie i pilka spawnuje sie jeszcze raz
+
     if (m_ObjectCenterPos.y >= SCREEN_HEIGHT - 50 + PADDLE_HEIGHT)
     {
         m_BallSpeed = 10.0;
@@ -63,7 +62,6 @@ void Ball::Update(float DeltaTime)
 void Ball::Render(SDL_Renderer* pRenderer)
 {
     vec2 BallTopLeftCorner = m_ObjectCenterPos - m_ObjectSize / 2;
-
 
     SDL_Rect BallDrawRect;
     BallDrawRect.x = (int)BallTopLeftCorner.x;

@@ -8,7 +8,7 @@ constexpr int TABLE_SIZE = 4;
 const Color ColorTable[TABLE_SIZE] = { {207, 207, 27}, {36, 105, 25}, {201, 114, 26}, {140, 14, 14} };
 
 
-Brick::Brick(int BrickCenterPosX, int BrickCenterPosY, shared_ptr<Ball> MyBall)
+Brick::Brick(float BrickCenterPosX, float BrickCenterPosY, shared_ptr<Ball> MyBall)
 {
     m_Ball = MyBall;
 
@@ -30,10 +30,10 @@ void Brick::Update(float DeltaTime)
     vec2 BrickTopLeftCorner = m_ObjectCenterPos - m_ObjectSize / 2;
     vec2 BrickBottomRightCorner = m_ObjectCenterPos + m_ObjectSize / 2;
 
-    int BrickTopLine = BrickTopLeftCorner.y;
-    int BrickBottomLine = BrickBottomRightCorner.y;
-    int BrickLeftLine = BrickTopLeftCorner.x;
-    int BrickRightLine = BrickBottomRightCorner.x;
+    float BrickTopLine = BrickTopLeftCorner.y;
+    float BrickBottomLine = BrickBottomRightCorner.y;
+    float BrickLeftLine = BrickTopLeftCorner.x;
+    float BrickRightLine = BrickBottomRightCorner.x;
     // punkt przeciecia prostej TopLine z prosta wyznaczana przez tor lotu pilki 
     vec2 PointOfIntersection_Up;
     vec2 PointOfIntersection_Bottom;
@@ -78,7 +78,7 @@ void Brick::Update(float DeltaTime)
         }
     }
     //-----SPRAWDZ czy pilka znajduje sie na plaszczyznie OY w miejscu wystepowania cegly (miedzy BottomLine a TopLine)-----
-    if (m_Ball->GetObjectPos().y >= BrickTopLine && m_Ball->GetObjectPos().y <= BrickBottomLine)
+    else if (m_Ball->GetObjectPos().y >= BrickTopLine && m_Ball->GetObjectPos().y <= BrickBottomLine)
     {
         //-----SPRAWDZ czy pilka odbije sie od prawej krawedzi-----
         if (m_Ball->GetObjectPos().x >= BrickRightLine)
@@ -102,7 +102,7 @@ void Brick::Update(float DeltaTime)
         if (m_Ball->GetObjectPos().x <= BrickLeftLine)
         {
             PointOfIntersection_Left.x = BrickLeftLine;
-            PointOfIntersection_Left.y = m_Ball->GetBallDirectionLine().a * BrickLeftLine + m_Ball->GetBallDirectionLine().b;;
+            PointOfIntersection_Left.y = m_Ball->GetBallDirectionLine().a * BrickLeftLine + m_Ball->GetBallDirectionLine().b;
 
             if (m_Ball->GetObjectPos().x >= PointOfIntersection_Left.x)
             {
