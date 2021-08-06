@@ -48,15 +48,22 @@ void Ball::Update(float DeltaTime)
         m_BallSpeed = 10.0;
         m_ObjectCenterPos.x = SCREEN_WIDTH / 2;
         m_ObjectCenterPos.y = SCREEN_HEIGHT - 200;
+        m_SlowmotionTimer = 2.0f;
     }
 
-    if (m_BallSpeed <= 10.0)
+    if (m_SlowmotionTimer >= 0)
     {
-        if (m_ObjectCenterPos.y >= SCREEN_HEIGHT - 200 + 10)
+        m_SlowmotionTimer = m_SlowmotionTimer - DeltaTime;
+
+        if (m_SlowmotionTimer <= 0)
         {
             m_BallSpeed = BALL_SPEED;
+            m_SlowmotionTimer = 0.0f;
         }
     }
+
+    m_BallSpeed = m_BallSpeed + m_Acceleration * DeltaTime;
+
 }
 
 void Ball::Render(SDL_Renderer* pRenderer)
@@ -97,4 +104,9 @@ void Ball::ReverseDirectionY()
 void Ball::ReverseDirectionX()
 {
     m_BallDirection.x = -m_BallDirection.x;
+}
+
+void Ball::ModifyBallDirection(vec2 Other, float DeltaTime)
+{
+    m_BallDirection = ((m_BallDirection * BALL_SPEED * DeltaTime) + Other*0.5).GetNormalized();
 }

@@ -21,7 +21,7 @@ enum : int
     SCREEN_WIDTH = 800,
     SCREEN_HEIGHT = 600,
 
-    BALL_SIZE = 20,
+    BALL_SIZE = 10,
     BALL_SPEED = 300,
 
     PADDLE_WIDTH = 100,
@@ -39,9 +39,9 @@ enum class eStateID
 
 struct Color
 {
-    char R = 255;
-    char G = 255;
-    char B = 255;
+    char R = char(255);
+    char G = char(255);
+    char B = char(255);
 };
 
 // y = ax + b

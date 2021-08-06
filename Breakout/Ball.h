@@ -12,10 +12,13 @@ public:
     Line GetBallDirectionLine();
     void ReverseDirectionY();
     void ReverseDirectionX();
+    void ModifyBallDirection(vec2 Other, float DeltaTime);
 private:
     vec2 m_BallDirection;
     float m_BallSpeed = BALL_SPEED;
     bool m_BallStatus = false;
     Line m_BallDirLine;
+    float m_Acceleration = 3.0f;
+    float m_SlowmotionTimer = 0.0f;
 };
 

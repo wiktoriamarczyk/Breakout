@@ -30,6 +30,21 @@ vec2 Paddle::ReturnPos()const
     return m_ObjectCenterPos;
 }
 
+void Paddle::Render(SDL_Renderer* pRenderer)
+{
+
+    vec2 PaddleTopLeftCorner = m_ObjectCenterPos - m_ObjectSize / 2;
+
+    SDL_Rect PaddleDrawRect{};
+    PaddleDrawRect.x = int(PaddleTopLeftCorner.x);
+    PaddleDrawRect.y = int(PaddleTopLeftCorner.y);
+    PaddleDrawRect.w = int(m_ObjectSize.x);
+    PaddleDrawRect.h = int(m_ObjectSize.y);
+
+    SDL_SetRenderDrawColor(pRenderer, 66, 135, 245, 255);
+    SDL_RenderFillRect(pRenderer, &PaddleDrawRect);
+}
+
 void Paddle::Update(float DeltaTime)
 {
     float FrameDistance = m_PaddleSpeed * DeltaTime;
@@ -50,9 +65,9 @@ void Paddle::Update(float DeltaTime)
 
     //----------KOLIZJA Z PILKA----------
     /*
-     _____________________<--- TopLine
+    _____________________<--- TopLine
     |                     |
-    |_____________________| 
+    |_____________________|
     ^                     ^
     |                     |
     LeftLine              RightLine
@@ -61,6 +76,7 @@ void Paddle::Update(float DeltaTime)
     int PaddleTopLine = PaddleTopLeftCorner.y;
     int PaddleLeftLine = PaddleTopLeftCorner.x;
     int PaddleRightLine = PaddleBottomRightCorner.x;
+
     // punkt przeciecia prostej TopLine z prosta wyznaczana przez tor lotu pilki 
     vec2 PointOfIntersection;
 
@@ -77,21 +93,17 @@ void Paddle::Update(float DeltaTime)
             // jesli tak, to przemiesc pilke idealnie w pkt. przeciecia oraz odwroc jej kierunek (odbij od paletki)
             m_Ball->SetObjectPos(PointOfIntersection);
             m_Ball->ReverseDirectionY();
+
+            if (SDL_IsKeyPressed(m_KeyToDown))
+            {
+                vec2 PaddleDir(PADDLE_SPEED * DeltaTime, 0.0);
+                m_Ball->ModifyBallDirection(PaddleDir, DeltaTime);
+            }
+            if (SDL_IsKeyPressed(m_KeyToUp))
+            {
+                vec2 PaddleDir(PADDLE_SPEED * DeltaTime, 0.0);
+                m_Ball->ModifyBallDirection(-PaddleDir, DeltaTime);
+            }
         }
     }
-}
-
-void Paddle::Render(SDL_Renderer* pRenderer)
-{
-
-    vec2 PaddleTopLeftCorner = m_ObjectCenterPos - m_ObjectSize / 2;
-
-    SDL_Rect PaddleDrawRect{};
-    PaddleDrawRect.x = int(PaddleTopLeftCorner.x);
-    PaddleDrawRect.y = int(PaddleTopLeftCorner.y);
-    PaddleDrawRect.w = int(m_ObjectSize.x);
-    PaddleDrawRect.h = int(m_ObjectSize.y);
-
-    SDL_SetRenderDrawColor(pRenderer, 66, 135, 245, 255);
-    SDL_RenderFillRect(pRenderer, &PaddleDrawRect);
 }

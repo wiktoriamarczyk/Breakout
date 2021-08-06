@@ -44,41 +44,55 @@ void Brick::Update(float DeltaTime)
     if (m_Ball->GetObjectPos().x >= BrickLeftLine && m_Ball->GetObjectPos().x <= BrickRightLine)
     {
         //----- SPRAWDZ czy pilka odbije sie od gornej krawedzi, jesli pilka znajduje sie nad gorna czescia cegly, to znaczy, ze moze sie z nia zderzyc od gory------
-        if (m_Ball->GetObjectPos().y <= this->m_ObjectCenterPos.y)
+        if (m_Ball->GetObjectPos().y <= BrickTopLine)
         {
             // y = ax + b
             // x = (y - b) / a
             // oblicz wspolrzedne punktu przeciecia z gorna czescia cegly
             PointOfIntersection_Up.x = (BrickTopLine - m_Ball->GetBallDirectionLine().b) / m_Ball->GetBallDirectionLine().a;
             PointOfIntersection_Up.y = BrickTopLine;
-            // w OX cegly juz sie znajdujemy, zatem sprawdz czy wspolrzedna Y polozenia pilki jest rowna Y punktu przeciecia
-            if (m_Ball->GetObjectPos().y >= PointOfIntersection_Up.y)
+
+            // sprawdz czy punkt przeciecia znajduje sie miedzy lewym a prawym bokiem paletki
+            if (PointOfIntersection_Up.x >= BrickLeftLine && PointOfIntersection_Up.x <= BrickRightLine)
             {
-                std::cout << "od gory" << std::endl;
+                vec2 Distance = PointOfIntersection_Up - m_Ball->GetObjectPos();
+
+                if (Distance.GetLength() <= BALL_SPEED * DeltaTime)
+                {
+                 std::cout << "od gory" << std::endl;
                 // jesli tak, to przemiesc pilke idealnie w pkt. przeciecia oraz odwroc jej kierunek (odbij od paletki)
                 m_Ball->SetObjectPos(PointOfIntersection_Up);
                 m_Ball->ReverseDirectionY();
                 SetObjectStatus(true);
+                return;
+                }
             }
         }
 
         //------SPRAWDZ czy pilka odbije sie od dolnej krawedzi, pilka znajduje sie pod dolna czescia cegly, to znaczy, ze moze sie z nia zderzyc od dolu------
-        if (m_Ball->GetObjectPos().y >= this->m_ObjectCenterPos.y)
+        if (m_Ball->GetObjectPos().y >= BrickBottomLine)
         {
             PointOfIntersection_Bottom.x = (BrickBottomLine - m_Ball->GetBallDirectionLine().b) / m_Ball->GetBallDirectionLine().a;
             PointOfIntersection_Bottom.y = BrickBottomLine;
 
-            if (m_Ball->GetObjectPos().y <= PointOfIntersection_Bottom.y)
+            if (PointOfIntersection_Bottom.x >= BrickLeftLine && PointOfIntersection_Bottom.x <= BrickRightLine)
             {
+                // wyliczamy odleglosc od pozycji pilki do pkt. przeciecia
+                vec2 Distance = PointOfIntersection_Bottom - m_Ball->GetObjectPos();
+                // czy w tej klatce pilka przeleci przez pkt. przeciecia
+                if (Distance.GetLength() <= BALL_SPEED * DeltaTime)
+                {
                 std::cout << "od dolu" << std::endl;
                 m_Ball->SetObjectPos(PointOfIntersection_Bottom);
                 m_Ball->ReverseDirectionY();
                 SetObjectStatus(true); 
+                return;
+                }
             }
         }
     }
     //-----SPRAWDZ czy pilka znajduje sie na plaszczyznie OY w miejscu wystepowania cegly (miedzy BottomLine a TopLine)-----
-    else if (m_Ball->GetObjectPos().y >= BrickTopLine && m_Ball->GetObjectPos().y <= BrickBottomLine)
+    if (m_Ball->GetObjectPos().y >= BrickTopLine && m_Ball->GetObjectPos().y <= BrickBottomLine)
     {
         //-----SPRAWDZ czy pilka odbije sie od prawej krawedzi-----
         if (m_Ball->GetObjectPos().x >= BrickRightLine)
@@ -88,13 +102,18 @@ void Brick::Update(float DeltaTime)
             PointOfIntersection_Right.x = BrickRightLine;
             PointOfIntersection_Right.y = m_Ball->GetBallDirectionLine().a * BrickRightLine + m_Ball->GetBallDirectionLine().b;
 
-            // w OY cegly juz sie znajdujemy, zatem sprawdz czy wspolrzedna X pilki jest rowna X punktu przeciecia
-            if (m_Ball->GetObjectPos().x <= PointOfIntersection_Right.x)
+            if (PointOfIntersection_Right.y >= BrickTopLine && PointOfIntersection_Right.y <= BrickBottomLine)
             {
+                vec2 Distance = PointOfIntersection_Right - m_Ball->GetObjectPos();
+
+                if (Distance.GetLength() <= BALL_SPEED * DeltaTime)
+                {
                 std::cout << "z prawej" << std::endl;
                 m_Ball->SetObjectPos(PointOfIntersection_Right);
                 m_Ball->ReverseDirectionX();
                 SetObjectStatus(true);
+                return;
+                }
             }
         }
 
@@ -104,12 +123,18 @@ void Brick::Update(float DeltaTime)
             PointOfIntersection_Left.x = BrickLeftLine;
             PointOfIntersection_Left.y = m_Ball->GetBallDirectionLine().a * BrickLeftLine + m_Ball->GetBallDirectionLine().b;
 
-            if (m_Ball->GetObjectPos().x >= PointOfIntersection_Left.x)
+            if (PointOfIntersection_Left.y >= BrickTopLine && PointOfIntersection_Left.y <= BrickBottomLine)
             {
+                vec2 Distance = PointOfIntersection_Left - m_Ball->GetObjectPos();
+
+                if (Distance.GetLength() <= BALL_SPEED * DeltaTime)
+                {
                 std::cout << "z lewej" << std::endl;
                 m_Ball->SetObjectPos(PointOfIntersection_Left);
                 m_Ball->ReverseDirectionX();
                 SetObjectStatus(true);
+                return;
+                }
             }
         }
     }
