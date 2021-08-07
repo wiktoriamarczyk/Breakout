@@ -12,8 +12,12 @@ public:
     void SetObjectPos(vec2 ObjectPos);
     void SetObjectStatus(bool IsObjectDead);
     bool  GetObjectStatus();
+    static int GetNumOfLivingObjects();
+
 protected:
     vec2 m_ObjectCenterPos;
     vec2 m_ObjectSize;
     bool m_RemoveObject = false;
+
+   static int m_NumOfLivingObjects;
 };

@@ -12,13 +12,13 @@ Paddle::Paddle(shared_ptr<Ball> MyBall)
     m_Ball = MyBall;
 }
 
-void Paddle::InitializePaddle(int PaddleCenterPosX, int PaddleCenterPosY, SDL_Scancode Up, SDL_Scancode Down)
+void Paddle::InitializePaddle(int PaddleCenterPosX, int PaddleCenterPosY, SDL_Scancode Left, SDL_Scancode Right)
 {
     m_ObjectCenterPos.x = float(PaddleCenterPosX);
     m_ObjectCenterPos.y = float(PaddleCenterPosY);
 
-    m_KeyToUp = Up;
-    m_KeyToDown = Down;
+    m_KeyToLeft = Left;
+    m_KeyToRight = Right;
 
     m_ObjectSize.x = float(PADDLE_WIDTH);
     m_ObjectSize.y = float(PADDLE_HEIGHT);
@@ -32,7 +32,6 @@ vec2 Paddle::ReturnPos()const
 
 void Paddle::Render(SDL_Renderer* pRenderer)
 {
-
     vec2 PaddleTopLeftCorner = m_ObjectCenterPos - m_ObjectSize / 2;
 
     SDL_Rect PaddleDrawRect{};
@@ -52,13 +51,13 @@ void Paddle::Update(float DeltaTime)
     //----------KOLIZJA ZE SCIANAMI----------
 
     vec2 PaddleTopLeftCorner = m_ObjectCenterPos - m_ObjectSize / 2;
-    if (SDL_IsKeyPressed(m_KeyToUp) && PaddleTopLeftCorner.x >= 0)
+    if (SDL_IsKeyPressed(m_KeyToLeft) && PaddleTopLeftCorner.x >= 0)
     {
         m_ObjectCenterPos.x -= FrameDistance;
     }
 
     vec2 PaddleBottomRightCorner = m_ObjectCenterPos + m_ObjectSize / 2;
-    if (SDL_IsKeyPressed(m_KeyToDown) && PaddleBottomRightCorner.x <= SCREEN_WIDTH)
+    if (SDL_IsKeyPressed(m_KeyToRight) && PaddleBottomRightCorner.x <= SCREEN_WIDTH)
     {
         m_ObjectCenterPos.x += FrameDistance;
     }
@@ -94,12 +93,12 @@ void Paddle::Update(float DeltaTime)
             m_Ball->SetObjectPos(PointOfIntersection);
             m_Ball->ReverseDirectionY();
 
-            if (SDL_IsKeyPressed(m_KeyToDown))
+            if (SDL_IsKeyPressed(m_KeyToRight))
             {
                 vec2 PaddleDir(PADDLE_SPEED * DeltaTime, 0.0);
                 m_Ball->ModifyBallDirection(PaddleDir, DeltaTime);
             }
-            if (SDL_IsKeyPressed(m_KeyToUp))
+            if (SDL_IsKeyPressed(m_KeyToLeft))
             {
                 vec2 PaddleDir(PADDLE_SPEED * DeltaTime, 0.0);
                 m_Ball->ModifyBallDirection(-PaddleDir, DeltaTime);

@@ -1,5 +1,7 @@
 #include "Engine.h"
 #include "InGameState.h"
+#include "VictoryState.h"
+#include "Font.h"
 
 
 Engine* Engine::pSingleton = nullptr;
@@ -12,17 +14,26 @@ Engine* Engine::GetSingleton()
 Engine::Engine()
 {
     pSingleton = this;
+
+    // stworzenie czcionki
+    shared_ptr<Font> MyFont = make_shared<Font>();
+    MyFont->LoadFont("../Data/FontData.txt");
+
     // tworzymy wektor wszystkich stanow
-    m_AllStates.push_back(make_unique<InGameState>());
+    m_AllStates.push_back(make_unique<InGameState>(MyFont));
+    m_AllStates.push_back(make_unique<VictoryState>(MyFont));
+
     // domyslnie pierwszym stanem jest gra
     ChangeState(eStateID::INGAME);
 }
 
 Engine::~Engine()
 {
+    pSingleton = nullptr;
     SDL_DestroyRenderer(m_pRenderer);
     SDL_DestroyWindow(m_pWindow);
     SDL_Quit();
+    SDL_CloseAudio();
 }
 
 bool Engine::Initialize()

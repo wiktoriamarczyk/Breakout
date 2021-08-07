@@ -9,7 +9,7 @@ public:
     Brick(float BrickCenterPosX, float BrickCenterPosY, shared_ptr<Ball> MyBall);
     void Update(float DeltaTime)override;
     void Render(SDL_Renderer* m_pRenderer)override;
-    bool HasBrickBeenCrossed(vec2 BallPos);
+    static int m_NumOfPoints;
 
 private:
     int m_BrickID = 0;

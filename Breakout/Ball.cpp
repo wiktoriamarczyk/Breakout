@@ -1,6 +1,13 @@
 #include "Ball.h"
 
 
+int Ball::m_NumOfLives = NUM_OF_BALL_LIVES;
+
+
+Ball::Ball(shared_ptr<Font> MyFont)
+{
+    m_Font = MyFont;
+}
 
 void Ball::InitializeBall(int BallCenterPosX, int BallCenterPosY)
 {
@@ -48,20 +55,23 @@ void Ball::Update(float DeltaTime)
         m_BallSpeed = 10.0;
         m_ObjectCenterPos.x = SCREEN_WIDTH / 2;
         m_ObjectCenterPos.y = SCREEN_HEIGHT - 200;
-        m_SlowmotionTimer = 2.0f;
+        m_SlowMotionTimer = 2.0f;
+        m_NumOfLives--;
     }
 
-    if (m_SlowmotionTimer >= 0)
+    if (m_SlowMotionTimer >= 0)
     {
-        m_SlowmotionTimer = m_SlowmotionTimer - DeltaTime;
-
-        if (m_SlowmotionTimer <= 0)
-        {
-            m_BallSpeed = BALL_SPEED;
-            m_SlowmotionTimer = 0.0f;
-        }
+        m_BallSpeed = 10.0;
+        m_SlowMotionTimer = m_SlowMotionTimer - DeltaTime;
     }
 
+    if (m_SlowMotionTimer <= 0)
+    {
+        m_BallSpeed = BALL_SPEED;
+        m_SlowMotionTimer = 0.0f;
+    }
+
+    // pilka bedzie przyspieszac z czasem
     m_BallSpeed = m_BallSpeed + m_Acceleration * DeltaTime;
 
 }
@@ -106,6 +116,7 @@ void Ball::ReverseDirectionX()
     m_BallDirection.x = -m_BallDirection.x;
 }
 
+// zmiana kierunku pilki w zaleznosci od tego, czy paletka sie poruszala w momencie jej odbicia
 void Ball::ModifyBallDirection(vec2 Other, float DeltaTime)
 {
     m_BallDirection = ((m_BallDirection * BALL_SPEED * DeltaTime) + Other*0.5).GetNormalized();

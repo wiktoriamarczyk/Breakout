@@ -3,9 +3,11 @@
 
 int Brick::m_NumOfBricks = 0;
 
+int Brick::m_NumOfPoints = 0;
+
 constexpr int TABLE_SIZE = 4;
 
-const Color ColorTable[TABLE_SIZE] = { {207, 207, 27}, {36, 105, 25}, {201, 114, 26}, {140, 14, 14} };
+const Color ColorTable[TABLE_SIZE] = { {255, 20, 147}, {36, 105, 25}, {207, 207, 27}, {140, 14, 14} };
 
 
 Brick::Brick(float BrickCenterPosX, float BrickCenterPosY, shared_ptr<Ball> MyBall)
@@ -55,6 +57,7 @@ void Brick::Update(float DeltaTime)
             // sprawdz czy punkt przeciecia znajduje sie miedzy lewym a prawym bokiem paletki
             if (PointOfIntersection_Up.x >= BrickLeftLine && PointOfIntersection_Up.x <= BrickRightLine)
             {
+                // wyliczamy odleglosc od pozycji pilki do pkt. przeciecia
                 vec2 Distance = PointOfIntersection_Up - m_Ball->GetObjectPos();
 
                 if (Distance.GetLength() <= BALL_SPEED * DeltaTime)
@@ -64,6 +67,7 @@ void Brick::Update(float DeltaTime)
                 m_Ball->SetObjectPos(PointOfIntersection_Up);
                 m_Ball->ReverseDirectionY();
                 SetObjectStatus(true);
+                m_NumOfPoints = m_NumOfPoints + (((m_BrickID / 16) % TABLE_SIZE) * 10);
                 return;
                 }
             }
@@ -77,7 +81,6 @@ void Brick::Update(float DeltaTime)
 
             if (PointOfIntersection_Bottom.x >= BrickLeftLine && PointOfIntersection_Bottom.x <= BrickRightLine)
             {
-                // wyliczamy odleglosc od pozycji pilki do pkt. przeciecia
                 vec2 Distance = PointOfIntersection_Bottom - m_Ball->GetObjectPos();
                 // czy w tej klatce pilka przeleci przez pkt. przeciecia
                 if (Distance.GetLength() <= BALL_SPEED * DeltaTime)
@@ -86,6 +89,7 @@ void Brick::Update(float DeltaTime)
                 m_Ball->SetObjectPos(PointOfIntersection_Bottom);
                 m_Ball->ReverseDirectionY();
                 SetObjectStatus(true); 
+                m_NumOfPoints = m_NumOfPoints + ((m_BrickID / 16) % TABLE_SIZE) * 10 + 5;
                 return;
                 }
             }
@@ -112,6 +116,7 @@ void Brick::Update(float DeltaTime)
                 m_Ball->SetObjectPos(PointOfIntersection_Right);
                 m_Ball->ReverseDirectionX();
                 SetObjectStatus(true);
+                m_NumOfPoints = m_NumOfPoints + (((m_BrickID / 16) % TABLE_SIZE) * 10);
                 return;
                 }
             }
@@ -133,6 +138,7 @@ void Brick::Update(float DeltaTime)
                 m_Ball->SetObjectPos(PointOfIntersection_Left);
                 m_Ball->ReverseDirectionX();
                 SetObjectStatus(true);
+                m_NumOfPoints = m_NumOfPoints + (((m_BrickID / 16) % TABLE_SIZE) * 10);
                 return;
                 }
             }
@@ -155,9 +161,5 @@ void Brick::Render(SDL_Renderer* m_pRenderer)
     SDL_RenderFillRect(m_pRenderer, &BrickDrawRect);
 }
 
-bool Brick::HasBrickBeenCrossed(vec2 BallPos)
-{
-    return false;
-}
 
 

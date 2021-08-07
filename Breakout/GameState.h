@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Common.h"
+#include "Font.h"
 
 class Engine;
 
@@ -15,8 +16,11 @@ public:
     eStateID GetNextStateID()const;
     // funkcja ustawiajaca na starcie aktualny stan jako ten nastepny, by uniknac zapetlajacego sie przeskakiwania miedzy stanami 
     virtual void OnEnter();
+
 protected:
     eStateID m_NextStateID = eStateID::UNKNOWN;
+    shared_ptr<Font> m_Font;
+
 private:
     const eStateID m_StateID = eStateID::UNKNOWN;
 };
