@@ -59,8 +59,17 @@ bool Engine::Initialize()
         return false;
     }
 
+    // zanicjalizowanie obiektow klasy dzwiek
+    m_wall_sound.Load("wall_sound.wav");
+    m_paddle_sound.Load("paddle_sound.wav");
+    m_first_block.Load("first_block_sound.wav");
+    m_second_block.Load("second_block_sound.wav");
+    m_third_block.Load("third_block_sound.wav");
+    m_fourth_block.Load("fourth_block_sound.wav");
+
     return true;
 }
+
 
 void Engine::Loop()
 {
@@ -102,4 +111,26 @@ void Engine::ChangeState(eStateID StateID)
 void Engine::ExitGame()
 {
     m_IsRunning = false;
+}
+
+void Engine::PlayBrickSound(int ID)const
+{
+    if (ID == 0)
+        m_first_block.Play();
+    if (ID == 1)
+        m_second_block.Play();
+    if (ID == 2)
+        m_third_block.Play();
+    if (ID == 3)
+        m_fourth_block.Play();
+}
+
+void Engine::PlayWallSound()const
+{
+    m_wall_sound.Play();
+}
+
+void Engine::PlayPaddleSound()const
+{
+    m_paddle_sound.Play();
 }

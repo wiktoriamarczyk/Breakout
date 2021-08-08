@@ -31,7 +31,7 @@ enum : int
 
     PADDLE_WIDTH = 100,
     PADDLE_HEIGHT = 20,
-    PADDLE_SPEED = 400,
+    PADDLE_SPEED = 800,
 
 };
 

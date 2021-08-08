@@ -1,7 +1,7 @@
 #pragma once
-
 #include "Common.h"
 #include "GameState.h"
+#include "Sound.h"
 
 
 class Engine
@@ -15,6 +15,10 @@ public:
     void ChangeState(eStateID StateID);
     void ExitGame();
 
+    void PlayBrickSound(int ID)const;
+    void PlayWallSound()const;
+    void PlayPaddleSound()const;
+
 private:
     static Engine* pSingleton;
 
@@ -23,5 +27,12 @@ private:
     bool m_IsRunning = true;
     GameState* m_pCurrentState = nullptr;
     vector<unique_ptr<GameState>> m_AllStates;
+
+    Sound m_first_block;
+    Sound m_second_block;
+    Sound m_third_block;
+    Sound m_fourth_block;
+    Sound m_wall_sound;
+    Sound m_paddle_sound;
 };
 

@@ -1,4 +1,6 @@
 #include "Paddle.h"
+#include "Engine.h"
+
 
 bool AreFloatsEqual(float A, float B)
 {
@@ -92,6 +94,7 @@ void Paddle::Update(float DeltaTime)
             // jesli tak, to przemiesc pilke idealnie w pkt. przeciecia oraz odwroc jej kierunek (odbij od paletki)
             m_Ball->SetObjectPos(PointOfIntersection);
             m_Ball->ReverseDirectionY();
+            Engine::GetSingleton()->PlayPaddleSound();
 
             if (SDL_IsKeyPressed(m_KeyToRight))
             {

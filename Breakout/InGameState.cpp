@@ -18,7 +18,7 @@ void InGameState::CreateObject()
     Brick::m_NumOfPoints = 0;
 
     // inicjalizacja pilki
-    shared_ptr<Ball> MyBall = make_shared<Ball>(m_Font);
+    shared_ptr<Ball> MyBall = make_shared<Ball>();
     MyBall->InitializeBall(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 200);
 
     // inicjalizacja paletki

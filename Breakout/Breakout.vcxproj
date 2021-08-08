@@ -151,6 +151,7 @@
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="InGameState.cpp" />
     <ClCompile Include="Paddle.cpp" />
+    <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="vec2.cpp" />
     <ClCompile Include="VictoryState.cpp" />
@@ -165,6 +166,7 @@
     <ClInclude Include="GameState.h" />
     <ClInclude Include="InGameState.h" />
     <ClInclude Include="Paddle.h" />
+    <ClInclude Include="Sound.h" />
     <ClInclude Include="vec2.h" />
     <ClInclude Include="VictoryState.h" />
   </ItemGroup>

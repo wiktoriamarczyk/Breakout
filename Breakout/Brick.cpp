@@ -1,4 +1,5 @@
 #include "Brick.h"
+#include "Engine.h"
 
 
 int Brick::m_NumOfBricks = 0;
@@ -67,7 +68,8 @@ void Brick::Update(float DeltaTime)
                 m_Ball->SetObjectPos(PointOfIntersection_Up);
                 m_Ball->ReverseDirectionY();
                 SetObjectStatus(true);
-                m_NumOfPoints = m_NumOfPoints + (((m_BrickID / 16) % TABLE_SIZE) * 10);
+                m_NumOfPoints = m_NumOfPoints + ((m_BrickID / 16) % TABLE_SIZE) * 2 + 1;
+                Engine::GetSingleton()->PlayBrickSound((m_BrickID / 16) % TABLE_SIZE);
                 return;
                 }
             }
@@ -89,7 +91,8 @@ void Brick::Update(float DeltaTime)
                 m_Ball->SetObjectPos(PointOfIntersection_Bottom);
                 m_Ball->ReverseDirectionY();
                 SetObjectStatus(true); 
-                m_NumOfPoints = m_NumOfPoints + ((m_BrickID / 16) % TABLE_SIZE) * 10 + 5;
+                m_NumOfPoints = m_NumOfPoints + ((m_BrickID / 16) % TABLE_SIZE) * 2 + 1;
+                Engine::GetSingleton()->PlayBrickSound((m_BrickID / 16) % TABLE_SIZE);
                 return;
                 }
             }
@@ -116,7 +119,8 @@ void Brick::Update(float DeltaTime)
                 m_Ball->SetObjectPos(PointOfIntersection_Right);
                 m_Ball->ReverseDirectionX();
                 SetObjectStatus(true);
-                m_NumOfPoints = m_NumOfPoints + (((m_BrickID / 16) % TABLE_SIZE) * 10);
+                m_NumOfPoints = m_NumOfPoints + ((m_BrickID / 16) % TABLE_SIZE) * 2 + 1;
+                Engine::GetSingleton()->PlayBrickSound((m_BrickID / 16) % TABLE_SIZE);
                 return;
                 }
             }
@@ -138,7 +142,8 @@ void Brick::Update(float DeltaTime)
                 m_Ball->SetObjectPos(PointOfIntersection_Left);
                 m_Ball->ReverseDirectionX();
                 SetObjectStatus(true);
-                m_NumOfPoints = m_NumOfPoints + (((m_BrickID / 16) % TABLE_SIZE) * 10);
+                m_NumOfPoints = m_NumOfPoints + ((m_BrickID / 16) % TABLE_SIZE) * 2 + 1;
+                Engine::GetSingleton()->PlayBrickSound((m_BrickID / 16) % TABLE_SIZE);
                 return;
                 }
             }

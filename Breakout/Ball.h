@@ -6,7 +6,6 @@
 class Ball : public GameObject
 {
 public:
-    Ball(shared_ptr<Font> MyFont);
     void InitializeBall(int BallCenterPosX, int BallCenterPosY);
     void Update(float DeltaTime)override;
     void Render(SDL_Renderer* pRenderer)override;
@@ -22,8 +21,7 @@ private:
     float m_BallSpeed = BALL_SPEED;
     bool m_BallStatus = false;
     Line m_BallDirLine;
-    float m_Acceleration = 50.0f;
+    float m_Acceleration = 1000.0f;
     float m_SlowMotionTimer = 1.0f;
-    shared_ptr<Font> m_Font;
 };
 
