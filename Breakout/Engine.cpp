@@ -14,17 +14,6 @@ Engine* Engine::GetSingleton()
 Engine::Engine()
 {
     pSingleton = this;
-
-    // stworzenie czcionki
-    shared_ptr<Font> MyFont = make_shared<Font>();
-    MyFont->LoadFont("../Data/FontData.txt");
-
-    // tworzymy wektor wszystkich stanow
-    m_AllStates.push_back(make_unique<InGameState>(MyFont));
-    m_AllStates.push_back(make_unique<VictoryState>(MyFont));
-
-    // domyslnie pierwszym stanem jest gra
-    ChangeState(eStateID::INGAME);
 }
 
 Engine::~Engine()
@@ -44,6 +33,11 @@ bool Engine::Initialize()
         printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
         return false;
     }
+
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+    {
+        return false;
+    }
     // utworzenie okna
     m_pWindow = SDL_CreateWindow("Breakout", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     if (m_pWindow == nullptr)
@@ -59,13 +53,16 @@ bool Engine::Initialize()
         return false;
     }
 
-    // zanicjalizowanie obiektow klasy dzwiek
-    m_wall_sound.Load("wall_sound.wav");
-    m_paddle_sound.Load("paddle_sound.wav");
-    m_first_block.Load("first_block_sound.wav");
-    m_second_block.Load("second_block_sound.wav");
-    m_third_block.Load("third_block_sound.wav");
-    m_fourth_block.Load("fourth_block_sound.wav");
+    // stworzenie czcionki
+    shared_ptr<Font> MyFont = make_shared<Font>();
+    MyFont->LoadFont("../Data/FontData.txt");
+
+    // tworzymy wektor wszystkich stanow
+    m_AllStates.push_back(make_unique<InGameState>(MyFont));
+    m_AllStates.push_back(make_unique<VictoryState>(MyFont));
+
+    // domyslnie pierwszym stanem jest gra
+    ChangeState(eStateID::INGAME);
 
     return true;
 }
@@ -113,24 +110,18 @@ void Engine::ExitGame()
     m_IsRunning = false;
 }
 
-void Engine::PlayBrickSound(int ID)const
+void Engine::PlaySound(const string& FileName)
 {
-    if (ID == 0)
-        m_first_block.Play();
-    if (ID == 1)
-        m_second_block.Play();
-    if (ID == 2)
-        m_third_block.Play();
-    if (ID == 3)
-        m_fourth_block.Play();
-}
-
-void Engine::PlayWallSound()const
-{
-    m_wall_sound.Play();
-}
-
-void Engine::PlayPaddleSound()const
-{
-    m_paddle_sound.Play();
+    for (int i = 0; i < m_LoadedSounds.size(); ++i)
+    {
+        if (m_LoadedSounds[i]->GetName() == FileName)
+        {
+            m_LoadedSounds[i]->Play();
+            return;
+        }
+    }
+    shared_ptr<Sound> temp_sound = make_shared<Sound>();
+    temp_sound->Load(FileName);
+    m_LoadedSounds.push_back(temp_sound);
+    m_LoadedSounds.back()->Play();
 }

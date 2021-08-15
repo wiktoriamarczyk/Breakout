@@ -25,6 +25,15 @@ Brick::Brick(float BrickCenterPosX, float BrickCenterPosY, shared_ptr<Ball> MyBa
     m_NumOfBricks++;
 
     m_BrickColor = ColorTable[(m_BrickID / 16) % TABLE_SIZE];
+
+    if ((m_BrickID / 16) % TABLE_SIZE == 0)
+        m_SoundName = "first_block_sound.wav"s;
+    else if ((m_BrickID / 16) % TABLE_SIZE == 1)
+        m_SoundName = "second_block_sound.wav";
+    else if ((m_BrickID / 16) % TABLE_SIZE == 2)
+        m_SoundName = "third_block_sound.wav";
+    else if ((m_BrickID / 16) % TABLE_SIZE == 3)
+        m_SoundName = "fourth_block_sound.wav";
 }
 
 void Brick::Update(float DeltaTime)
@@ -69,7 +78,7 @@ void Brick::Update(float DeltaTime)
                 m_Ball->ReverseDirectionY();
                 SetObjectStatus(true);
                 m_NumOfPoints = m_NumOfPoints + ((m_BrickID / 16) % TABLE_SIZE) * 2 + 1;
-                Engine::GetSingleton()->PlayBrickSound((m_BrickID / 16) % TABLE_SIZE);
+                Engine::GetSingleton()->PlaySound(m_SoundName);
                 return;
                 }
             }
@@ -92,7 +101,7 @@ void Brick::Update(float DeltaTime)
                 m_Ball->ReverseDirectionY();
                 SetObjectStatus(true); 
                 m_NumOfPoints = m_NumOfPoints + ((m_BrickID / 16) % TABLE_SIZE) * 2 + 1;
-                Engine::GetSingleton()->PlayBrickSound((m_BrickID / 16) % TABLE_SIZE);
+                Engine::GetSingleton()->PlaySound(m_SoundName);
                 return;
                 }
             }
@@ -120,7 +129,7 @@ void Brick::Update(float DeltaTime)
                 m_Ball->ReverseDirectionX();
                 SetObjectStatus(true);
                 m_NumOfPoints = m_NumOfPoints + ((m_BrickID / 16) % TABLE_SIZE) * 2 + 1;
-                Engine::GetSingleton()->PlayBrickSound((m_BrickID / 16) % TABLE_SIZE);
+                Engine::GetSingleton()->PlaySound(m_SoundName);
                 return;
                 }
             }
@@ -143,7 +152,7 @@ void Brick::Update(float DeltaTime)
                 m_Ball->ReverseDirectionX();
                 SetObjectStatus(true);
                 m_NumOfPoints = m_NumOfPoints + ((m_BrickID / 16) % TABLE_SIZE) * 2 + 1;
-                Engine::GetSingleton()->PlayBrickSound((m_BrickID / 16) % TABLE_SIZE);
+                Engine::GetSingleton()->PlaySound(m_SoundName);
                 return;
                 }
             }

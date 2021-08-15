@@ -16,6 +16,7 @@ using std::make_shared;
 using std::move;
 using std::string;
 using std::fstream;
+using namespace std::string_literals;
 
 
 constexpr int BRICK_SPACING = 4;

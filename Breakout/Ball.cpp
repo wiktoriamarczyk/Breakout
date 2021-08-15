@@ -32,17 +32,17 @@ void Ball::Update(float DeltaTime)
     if (m_ObjectCenterPos.y <= 0)
     {
         m_BallDirection.y = -m_BallDirection.y;
-        Engine::GetSingleton()->PlayWallSound();
+        Engine::GetSingleton()->PlaySound("wall_sound.wav");
     }
     if (m_ObjectCenterPos.x >= SCREEN_WIDTH)
     {
         m_BallDirection.x = -m_BallDirection.x;
-        Engine::GetSingleton()->PlayWallSound();
+        Engine::GetSingleton()->PlaySound("wall_sound.wav");
     }
     if (m_ObjectCenterPos.x <= 0)
     {
         m_BallDirection.x = -m_BallDirection.x;
-        Engine::GetSingleton()->PlayWallSound();
+        Engine::GetSingleton()->PlaySound("wall_sound.wav");
     }
 
     //----------BRAK KOLIZJI Z PALETKA----------

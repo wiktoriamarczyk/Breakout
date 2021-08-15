@@ -94,7 +94,7 @@ void Paddle::Update(float DeltaTime)
             // jesli tak, to przemiesc pilke idealnie w pkt. przeciecia oraz odwroc jej kierunek (odbij od paletki)
             m_Ball->SetObjectPos(PointOfIntersection);
             m_Ball->ReverseDirectionY();
-            Engine::GetSingleton()->PlayPaddleSound();
+            Engine::GetSingleton()->PlaySound("paddle_sound.wav");
 
             if (SDL_IsKeyPressed(m_KeyToRight))
             {

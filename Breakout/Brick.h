@@ -16,5 +16,6 @@ private:
     static int m_NumOfBricks;
     Color m_BrickColor;
     shared_ptr<Ball> m_Ball;
+    string m_SoundName;
 };
 
